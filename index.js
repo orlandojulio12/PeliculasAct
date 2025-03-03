@@ -1,12 +1,18 @@
 const express = require('express')
-const { getConection } = require ('./db/db-connection-mongo')
+const { getConnection } = require('./db/db-connection-mongo');
 const app = express()
 const port = 4000
 
 
-getConection();
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 
-app.use('./moduloDirector', require('./routes/moduloDirector'))
+getConnection();
+
+app.use('/moduloDirector', require('./routes/moduloDirector'));
+app.use('/moduloGenero', require('./routes/moduloGenero'));
+app.use('/moduloTipo', require('./routes/moduloTipo'));
+
 
 app.listen(port, () =>{
     console.log(`example app listening on port ${port}`)
