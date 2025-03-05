@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 getConnection();
 
-// Rutas
+// Rutas para apis
 app.use('/moduloDirector', require('./routes/moduloDirector'));
 app.use('/moduloGenero', require('./routes/moduloGenero'));
 app.use('/moduloTipo', require('./routes/moduloTipo'));
