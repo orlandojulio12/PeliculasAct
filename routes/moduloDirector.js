@@ -39,8 +39,6 @@ router.post('/',
     
 });
 
-
-
 //PUT
 router.put('/:moduloDirectorId',
     [
@@ -50,7 +48,8 @@ router.put('/:moduloDirectorId',
 
     async function(req, res){
         try{
-            let moduloDirector = await moduloDirector.findById(req.moduloDirectorId);
+            let moduloDirector = await ModuloDirector.findById(req.params.moduloDirectorId);
+
             if(!moduloDirector){
                 return res.send('director no existe');
             }
@@ -68,7 +67,7 @@ router.put('/:moduloDirectorId',
 
         }catch(error){
             console.log(error),
-            res.status('ha ocurrido un error')
+            res.status(500).send('Ha ocurrido un error');
 
         }
     
@@ -85,5 +84,23 @@ router.get('/', async function (req, res) {
         res.status(500).send('ocurrio un error')
     }
 });
+
+//DELETE
+
+router.delete('/', async function (req, res) {
+    try {
+        const { nombre } = req.body; // Se recibe el nombre desde el body
+        if (!nombre) return res.status(400).send('El nombre es requerido');
+
+        const director = await ModuloDirector.findOneAndDelete({ nombre });
+        if (!director) return res.status(404).send('Director no encontrado');
+
+        res.send('Director eliminado');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Ocurrió un error al eliminar el Director');
+    }
+});
+
 
 module.exports = router;

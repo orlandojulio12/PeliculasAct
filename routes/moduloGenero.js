@@ -47,7 +47,7 @@ router.put('/moduloGeneroId',
 
     async function(req, res){
         try{
-            let moduloGenero = await moduloGenero.fyndById(req.moduloGeneroId);
+            let moduloGenero = await ModuloGenero.fyndById(req.params.moduloGeneroId);
             if(!moduloGenero){
                 return res.send('no existe este genero');
             }
@@ -80,6 +80,22 @@ router.get('/', async function (req, res) {
     catch(error){
         console.log(error);
         res.status(500).send('ocurrio un error')
+    }
+});
+
+//DELETE
+router.delete('/', async function (req, res) {
+    try {
+        const { nombre } = req.body; // Se recibe el nombre desde el body
+        if (!nombre) return res.status(400).send('El nombre es requerido');
+
+        const genero = await ModuloGenero.findOneAndDelete({ nombre });
+        if (!genero) return res.status(404).send('Genero no encontrado');
+
+        res.send('Genero eliminado');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Ocurrió un error al eliminar el Genero');
     }
 });
 

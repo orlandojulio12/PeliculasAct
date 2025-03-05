@@ -12,6 +12,7 @@ getConnection();
 app.use('/moduloDirector', require('./routes/moduloDirector'));
 app.use('/moduloGenero', require('./routes/moduloGenero'));
 app.use('/moduloTipo', require('./routes/moduloTipo'));
+app.use('/moduloProductora', require('./routes/moduloProductora'))
 
 
 app.listen(port, () =>{

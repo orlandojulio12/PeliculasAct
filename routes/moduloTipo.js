@@ -5,8 +5,6 @@ const ModuloTipo = require('../models/ModuloTipo');
 
 const router = Router();
 
-
-
 //POST
 router.post('/',
     [
@@ -53,7 +51,7 @@ router.put('/moduloTipoID',
 
         try{
             
-            let  moduloTipo = new moduloTipo.findById(req.ModuloTipo)
+            let  moduloTipo = new ModuloTipo.findById(req.params.ModuloTipoId)
 
             if(!moduloTipo){
                 return res.send('no esxiste este tipo')
@@ -92,5 +90,23 @@ router.get('/', async function (req, res) {
         res.status(500).send('ocurrio un error')
     }
 });
+
+//DELETE
+
+router.delete('/', async function (req, res) {
+    try {
+        const { nombre } = req.body; 
+        if (!nombre) return res.status(400).send('El nombre es requerido');
+
+        const tipo = await ModuloTipo.findOneAndDelete({ nombre }); 
+        if (!tipo) return res.status(404).send('Tipo de equipo no encontrado'); 
+
+        res.send('Tipo de equipo eliminado'); 
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Ocurrió un error al eliminar el tipo de equipo'); 
+    }
+});
+
 
 module.exports = router;

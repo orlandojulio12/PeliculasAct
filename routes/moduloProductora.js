@@ -1,7 +1,7 @@
 //Get
 const { Router } = require ('express');
 const { validationResult, check } = require('express-validator');
-const ModuloProductora = require('../models/ModuloProdcutora');
+const ModuloProductora = require('../models/ModuloProductora');
 
 const router = Router();
 
@@ -53,7 +53,7 @@ router.put('/moduloProductoraId',
 
     async function (req, res) {
         try {
-            let moduloProductora = new moduloProductora.findById(req.ModuloProductora);
+            let moduloProductora = new ModuloProductora.findById(req.params.ModuloProductoraID);
 
             if(!moduloProductora){
                 return res.send('no existe este productor')
@@ -89,6 +89,22 @@ router.get('/', async function (req, res) {
     catch(error){
         console.log(error);
         res.status(500).send('ocurrio un error')
+    }
+});
+
+//DELETE
+router.delete('/', async function (req, res) {
+    try {
+        const { nombre } = req.body; // Se recibe el nombre desde el body
+        if (!nombre) return res.status(400).send('El nombre es requerido');
+
+        const productora = await ModuloProductora.findOneAndDelete({ nombre });
+        if (!productora) return res.status(404).send('Productora no encontrada');
+
+        res.send('Productora eliminado');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Ocurrió un error al eliminar la productora');
     }
 });
 

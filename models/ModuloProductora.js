@@ -5,6 +5,7 @@ const ModuloProductoraSchema = Schema ({
     nombre: {
         type: String,
         required: true,
+        
     },
     estado: {
         type: String,
@@ -33,4 +34,4 @@ const ModuloProductoraSchema = Schema ({
 
 });
 
-module.exports = model(`ModuloProductura`, ModuloProductoraSchema);
+module.exports = model('ModuloProductora', ModuloProductoraSchema);
