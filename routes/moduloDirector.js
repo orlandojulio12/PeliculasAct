@@ -87,18 +87,20 @@ router.get('/', async function (req, res) {
 
 //DELETE
 
-router.delete('/', async function (req, res) {
+router.delete('/:id', async function (req, res) {
     try {
-        const { nombre } = req.body; // Se recibe el nombre desde el body
-        if (!nombre) return res.status(400).send('El nombre es requerido');
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).send('ID inválido');
+        }
 
-        const director = await ModuloDirector.findOneAndDelete({ nombre });
-        if (!director) return res.status(404).send('Director no encontrado');
-
-        res.send('Director eliminado');
+        const director = await ModuloDirector.findByIdAndDelete(req.params.id);
+        if (!director) {
+            return res.status(404).send('Director no encontrado');
+        }
+        res.send({ success: true, message: 'Director eliminado correctamente' });
     } catch (error) {
-        console.log(error);
-        res.status(500).send('Ocurrió un error al eliminar el Director');
+        console.error('Error:', error);
+        res.status(500).send('Error al eliminar director');
     }
 });
 
